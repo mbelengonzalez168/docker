@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 
 # Actualización de paquetes e instalación de herramientas necesarias (java, gradle, wget)
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     openjdk-11-jdk \
     gradle \
     wget \
