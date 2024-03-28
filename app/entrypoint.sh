@@ -1,21 +1,10 @@
 #!/bin/bash
 
-# Definir variables de entorno
-RAMA="capacitaciones"
-REPOSITORIO="https://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@github.com/Israelgarate/BCE_01.git"
-REPO_DOCKER="https://github.com/mbelengonzalez168/docker"
-TAG="@Regresion"
-NAV="Chrome"
-NOMBRE_APELLIDO="belen_gonzalez"
-TAG_IMAGEN="latest"
-
 # Limpiar el espacio de trabajo
 cleanWs
 
-# Clonar el repositorio de Docker
+# Clonar el repositorio de Docker y construir la imagen
 git clone -b main $REPO_DOCKER $WORKSPACE
-
-# Construir la imagen Docker
 docker buildx build -t $NOMBRE_APELLIDO:$TAG_IMAGEN .
 
 # Dar permisos de ejecución a los scripts en el directorio 'app'
