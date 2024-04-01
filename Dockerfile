@@ -41,15 +41,14 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get install -y google-chrome-stable
 
 #Agregar el directorio de trabajo (WORKDIR):  donde se ejecutarán los comandos relacionados con Gradle y donde se encontrarán los archivos necesarios para la ejecución de las pruebas
-WORKDIR /opt/framework
+WORKDIR /opt
 
 #Copiar los scripts de prueba al contenedor: 
-COPY app/testgradle.sh /opt/framework/
-COPY app/clone.sh /opt/framework/
+COPY app/ /opt
 
 #Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
-RUN chmod +x /opt/framework/testgradle.sh
-RUN chmod +x /opt/framework/clone.sh
+RUN chmod +x testgradle.sh
+RUN chmod +x clone.sh
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
 RUN sh /opt/framework/clone.sh ${RAMA} ${REPOSITORIO} && \
