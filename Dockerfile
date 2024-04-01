@@ -12,6 +12,21 @@ RUN apt-get update && \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+# Descarga e instalación de Gradle
+ENV GRADLE_VERSION=7.4 \
+    GRADLE_HOME=/opt/gradle \
+    PATH=$PATH:/opt/gradle/bin
+
+RUN wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -P /tmp && \
+    unzip -q /tmp/gradle-${GRADLE_VERSION}-bin.zip -d /opt && \
+    rm -rf /tmp/*
+
+# Mostrar versiones de Java y Gradle
+RUN echo "Java version:"
+RUN java -version
+RUN echo "Gradle version:"
+RUN gradle --version
+
 # Instalación de Google Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
