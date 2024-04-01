@@ -2,6 +2,12 @@ FROM ubuntu:22.04
 
 FROM ubuntu:22.04
 
+# Variables de entorno
+ENV RAMA=${RAMA}
+ENV REPOSITORIO=${REPOSITORIO}
+ENV TAG=${TAG}
+ENV NAV=${NAV}
+
 # Actualización de paquetes e instalación de herramientas necesarias (java, gradle, wget)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -32,3 +38,17 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && \
     apt-get install -y google-chrome-stable
+
+#Agregar el directorio de trabajo (WORKDIR):  donde se ejecutarán los comandos relacionados con Gradle y donde se encontrarán los archivos necesarios para la ejecución de las pruebas
+WORKDIR /opt/framework
+
+#Copiar los scripts de prueba al contenedor: 
+COPY testgradle.sh /opt/framework/
+COPY clone.sh /opt/framework/
+
+#Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
+RUN chmod +x /opt/framework/testgradle.sh
+RUN chmod +x /opt/framework/clone.sh
+
+#Ejecutar los scripts de prueba durante la construcción de la imagen: 
+RUN sh /opt/framework/testgradle.sh ${TAG} ${NAV}
