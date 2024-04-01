@@ -52,4 +52,4 @@ RUN ls
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
 RUN echo "Ejecuto la prueba"
-CMD ["sh", "/opt/clone.sh", "${RAMA}", "${REPOSITORIO}", "${TAG}", "${NAV}" ]
+ENTRYPOINT ["/bin/bash", "entrypoint.sh", "${RAMA}", "${REPOSITORIO}", "${TAG}", "${NAV}"]
