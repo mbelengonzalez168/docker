@@ -43,12 +43,12 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 WORKDIR /opt/framework
 
 #Copiar los scripts de prueba al contenedor: 
-COPY testgradle.sh /opt/framework/
-COPY clone.sh /opt/framework/
+COPY testgradle.sh app/opt/framework/
+COPY clone.sh app/opt/framework/
 
 #Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
-RUN chmod +x /opt/framework/testgradle.sh
-RUN chmod +x /opt/framework/clone.sh
+RUN chmod +x app/opt/framework/testgradle.sh
+RUN chmod +x app/opt/framework/clone.sh
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
 RUN sh /opt/framework/clone.sh ${RAMA} ${REPOSITORIO} && \
