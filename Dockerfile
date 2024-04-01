@@ -47,9 +47,9 @@ WORKDIR /opt
 COPY app/ /opt
 
 #Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
-RUN chmod +x testgradle.sh
-RUN chmod +x clone.sh
+RUN chmod +x /opt/testgradle.sh
+RUN chmod +x /opt/clone.sh
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
-RUN sh /opt/framework/clone.sh ${RAMA} ${REPOSITORIO} && \
-    sh /opt/framework/testgradle.sh ${TAG} ${NAV}
+RUN sh /opt/clone.sh ${RAMA} ${REPOSITORIO} && \
+    sh /opt/testgradle.sh ${TAG} ${NAV}
