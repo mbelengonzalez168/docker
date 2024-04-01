@@ -43,8 +43,8 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 WORKDIR /opt/framework
 
 #Copiar los scripts de prueba al contenedor: 
-COPY testgradle.sh app/opt/framework/
-COPY clone.sh app/opt/framework/
+COPY app/testgradle.sh /opt/framework/
+COPY app/clone.sh /opt/framework/
 
 #Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
 RUN chmod +x app/opt/framework/testgradle.sh
