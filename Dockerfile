@@ -48,7 +48,7 @@ COPY app/ /opt
 RUN chmod +x /opt/testgradle.sh
 RUN chmod +x /opt/clone.sh
 RUN pwd
-RUN ll
+RUN ls
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
 RUN echo "Ejecuto la prueba"
