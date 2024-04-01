@@ -50,5 +50,6 @@ COPY clone.sh /opt/framework/
 RUN chmod +x /opt/framework/testgradle.sh
 RUN chmod +x /opt/framework/clone.sh
 
-#Ejecutar los scripts de prueba durante la construcción de la imagen: 
-RUN sh /opt/framework/testgradle.sh ${TAG} ${NAV}
+# Ejecutar los scripts de prueba durante la construcción de la imagen
+RUN sh /opt/framework/clone.sh ${RAMA} ${REPOSITORIO} && \
+    sh /opt/framework/testgradle.sh ${TAG} ${NAV}
