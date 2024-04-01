@@ -49,4 +49,5 @@ RUN chmod +x /opt/testgradle.sh
 RUN chmod +x /opt/clone.sh
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
+RUN echo "Ejecuto la prueba"
 CMD ["sh", "/opt/clone.sh", "${RAMA}", "${REPOSITORIO}", "${TAG}", "${NAV}" ]
