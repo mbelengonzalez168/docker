@@ -1,8 +1,10 @@
 #!/bin/bash
+
 RAMA=$1
 REPOSITORIO=$2
 TAG=$3
 NAV=$4
+
 cd /opt
 chmod +x clone.sh
 chmod +x testgradle.sh
