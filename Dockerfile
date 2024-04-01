@@ -47,8 +47,8 @@ COPY app/testgradle.sh /opt/framework/
 COPY app/clone.sh /opt/framework/
 
 #Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
-RUN chmod +x app/opt/framework/testgradle.sh
-RUN chmod +x app/opt/framework/clone.sh
+RUN chmod +x /opt/framework/testgradle.sh
+RUN chmod +x /opt/framework/clone.sh
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
 RUN sh /opt/framework/clone.sh ${RAMA} ${REPOSITORIO} && \
