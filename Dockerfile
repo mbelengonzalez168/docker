@@ -47,6 +47,8 @@ COPY app/ /opt
 #Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
 RUN chmod +x /opt/testgradle.sh
 RUN chmod +x /opt/clone.sh
+RUN pwd
+RUN ll
 
 # Ejecutar los scripts de prueba durante la construcción de la imagen
 RUN echo "Ejecuto la prueba"
