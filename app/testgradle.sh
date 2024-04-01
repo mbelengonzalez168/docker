@@ -1,11 +1,6 @@
 #!/bin/bash
-
-# Obtener los argumentos pasados al script
 TAG=$1
 NAV=$2
-
-# Cambiar al directorio donde se encuentra el proyecto de Gradle
-cd /opt/prueba
-
-# Ejecutar las pruebas de Gradle con los argumentos proporcionados
-./gradlew test -Dtag=$TAG -Dnav=$NAV
+ 
+xvfb-run -a --server-args="-screen 0 1920x1080x24" gradle runWithCucumber -Ptags=$TAG -Pnav=$NAV || true
+ls /opt/framework/results
