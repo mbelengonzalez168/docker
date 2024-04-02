@@ -3,12 +3,12 @@ RAMA=$1
 REPOSITORIO=$2
 TAG=$3
 NAV=$4
-sudo chmod 777 /opt/
+chmod 777 /opt
 cd /opt
 pwd
 ls
-sudo chmod +x clone.sh
-sudo chmod +x testgradle.sh
+chmod +x clone.sh
+chmod +x testgradle.sh
 sh clone.sh ${RAMA} ${REPOSITORIO}
 cd /opt/framework
 cp /opt/testgradle.sh /opt/framework
