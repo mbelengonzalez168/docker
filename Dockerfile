@@ -38,10 +38,10 @@ ENV TAG=${TAG}
 ENV NAV=${NAV}
 
 #Agregar el directorio de trabajo donde se ejecutarán los comandos relacionados con Gradle y donde se encontrarán los archivos necesarios para la ejecución de las pruebas
-WORKDIR /opt
+WORKDIR /opt/
 
 #Copiar los scripts de prueba al contenedor: 
-COPY app /opt/
+COPY app /opt
 
 #ejecuta el framework
 RUN chmod +x entrypoint.sh
