@@ -1,36 +1,35 @@
 FROM ubuntu:22.04
 
-# Actualización de paquetes e instalación de herramientas necesarias (java, gradle, wget)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    git \
-    openjdk-11-jdk \
-    gradle \
-    wget \
-    gnupg2 \
-    unzip \
+# Instalacion de dependencias
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip git xvfb \
+    && wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb \
+    && apt-get install -y /tmp/chrome.deb \
+    && rm /tmp/chrome.deb \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Descarga e instalación de Gradle
-ENV GRADLE_VERSION=7.4 \
-    GRADLE_HOME=/opt/gradle \
-    PATH=$PATH:/opt/gradle/bin
+#Variables de entorno Java 
+ENV JAVA_HOME='/usr/lib/jvm/java-17-openjdk-amd64'
+ENV PATH=${JAVA_HOME}/bin:${PATH}
 
-RUN wget -q https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -P /tmp && \
-    unzip -q /tmp/gradle-${GRADLE_VERSION}-bin.zip -d /opt && \
-    rm -rf /tmp/*
+# Descargar e instalar Gradle
+ENV GRADLE_VERSION=8.5
+RUN wget --no-verbose "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" \
+    && unzip -d /opt gradle-${GRADLE_VERSION}-bin.zip \
+    && rm gradle-${GRADLE_VERSION}-bin.zip \
+    && wget "https://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/6.7.0.202309050840-r/org.eclipse.jgit-6.7.0.202309050840-r.jar" \
+    && mv org.eclipse.jgit-6.7.0.202309050840-r.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/  \
+    && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/org.eclipse.jgit-5.7.0.202003110725-r.jar \
+    && mv /opt/gradle-${GRADLE_VERSION}/lib/plugins/org.eclipse.jgit-6.7.0.202309050840-r.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/org.eclipse.jgit-5.7.0.202003110725-r.jar \
+    && wget "https://repo1.maven.org/maven2/org/testng/testng/7.5.1/testng-7.5.1.jar" \
+    && mv testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/ \
+    && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar \
+    && mv /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar
 
-# Mostrar versiones de Java y Gradle
-RUN echo "Java version:"
-RUN java -version
-RUN echo "Gradle version:"
-RUN gradle --version
-
-# Instalación de Google Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && \
-    apt-get install -y google-chrome-stable
+# Configuracion variables de entorno de Gradle
+ENV GRADLE_HOME=/opt/gradle-${GRADLE_VERSION}
+ENV PATH=${GRADLE_HOME}/bin:${PATH}
 
 # Variables de entorno
 ENV RAMA=${RAMA}
@@ -42,14 +41,8 @@ ENV NAV=${NAV}
 WORKDIR /opt
 
 #Copiar los scripts de prueba al contenedor: 
-COPY app/ /opt
+COPY app /opt
 
-#Cambiar los permisos de los scripts para que sean ejecutables dentro del contenedor.
-RUN chmod +x /opt/testgradle.sh
-RUN chmod +x /opt/clone.sh
-RUN pwd
-RUN ls
-
-# Ejecutar los scripts de prueba durante la construcción de la imagen
-RUN echo "Ejecuto la prueba"
-ENTRYPOINT ["/bin/bash", "entrypoint.sh", "${RAMA}", "${REPOSITORIO}", "${TAG}", "${NAV}"]
+#ejecuta el framework
+RUN chmod +x entrypoint.sh
+ENTRYPOINT /bin/bash entrypoint.sh ${RAMA} ${REPOSITORIO} ${TAG} ${NAV}
