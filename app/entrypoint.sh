@@ -4,6 +4,8 @@ REPOSITORIO=$2
 TAG=$3
 NAV=$4
 cd /opt
+pwd
+ls
 chmod +x clone.sh
 chmod +x testgradle.sh
 sh clone.sh ${RAMA} ${REPOSITORIO}
