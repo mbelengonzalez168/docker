@@ -41,7 +41,7 @@ ENV NAV=${NAV}
 WORKDIR /opt
 
 #Copiar los scripts de prueba al contenedor: 
-COPY app /opt
+COPY app /opt/
 
 #ejecuta el framework
 RUN chmod +x entrypoint.sh
